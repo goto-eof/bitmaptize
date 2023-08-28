@@ -86,7 +86,7 @@ class _BitmaptizeState extends State<Bitmaptize> {
                 title: "Convert Data to BMP",
                 description:
                     "Wraps a data file into a BMP file (maximum size allowed is 100Mb). Choose the file that you want to wrap into a Bitmap file and press on 'Process' button. Once the processing operation is finished, a new file will appear in the same directory of your target file which will have the same name and the '.bmp' extension.",
-                key: ValueKey("data_to_bmp"),
+                key: const ValueKey("data_to_bmp"),
                 action: ConverterCommon.Action.convertToBmp,
                 parentContext: context,
               ),
@@ -95,7 +95,7 @@ class _BitmaptizeState extends State<Bitmaptize> {
                   description:
                       "Extracts from BMP file the original file and saves it. The maximum target file size is 100Mb. Chose the file that you wrapped in a BMP file and press on 'Process' button. A new file will be created in the directory of the target file that will contain the same name as the target file and the extension of the original file.",
                   parentContext: context,
-                  key: ValueKey("bmp_to_data"),
+                  key: const ValueKey("bmp_to_data"),
                   action: ConverterCommon.Action.convertToData),
             ],
           ),

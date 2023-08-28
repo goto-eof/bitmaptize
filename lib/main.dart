@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:bitmaptize/widget/bitmaptize.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ main() async {
       darkTheme:
           ThemeData(brightness: Brightness.dark, primaryColor: Colors.black),
       themeMode: ThemeMode.system,
-      home: Bitmaptize(),
+      home: const Bitmaptize(),
     ),
   );
 }

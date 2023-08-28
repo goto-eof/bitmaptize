@@ -112,7 +112,7 @@ class _ConvertCommonState extends State<ConvertCommon> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 100),
-              child: Container(
+              child: SizedBox(
                 width: 600,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
