@@ -103,8 +103,7 @@ class _ConvertCommonState extends State<ConvertCommon> {
               ],
             ),
             Container(
-              padding: const EdgeInsets.all(10),
-              width: 600,
+              padding: const EdgeInsets.all(50),
               child: Text(
                 widget.description,
                 style: const TextStyle(fontSize: 22),
@@ -152,7 +151,7 @@ class _ConvertCommonState extends State<ConvertCommon> {
                                 ? const CircularProgressIndicator()
                                 : FilledButton(
                                     onPressed: () async {
-                                      await _process();
+                                      _file != null ? await _process() : () {};
                                     },
                                     child: const Text("Process"),
                                   ),
