@@ -1,0 +1,29 @@
+name: bitmaptize
+version: '0.1.0'
+summary: Data to BMP and BMP to Data.
+description: Converter.
+
+base: core22
+confinement: strict
+grade: stable
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  bitmaptize:
+    command: bitmaptize
+    extensions: [gnome]
+    plugs: [network, network-bind, home]
+
+parts:
+  zenity-integration:
+    plugin: nil
+    stage-snaps:
+      - zenity-integration
+  bitmaptize:
+    build-packages: [curl]
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
