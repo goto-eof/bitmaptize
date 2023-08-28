@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 enum Action { convertToBmp, convertToData }
 
 class ConvertCommon extends StatefulWidget {
-  ConvertCommon(
+  const ConvertCommon(
       {super.key,
       required this.title,
       required this.description,
@@ -16,7 +16,7 @@ class ConvertCommon extends StatefulWidget {
   final String title;
   final String description;
   final Action action;
-  BuildContext parentContext;
+  final BuildContext parentContext;
   @override
   State<StatefulWidget> createState() {
     return _ConvertCommonState();
