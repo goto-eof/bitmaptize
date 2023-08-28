@@ -1,16 +1,11 @@
-# bitmaptize
+# Bitmaptize
 
-A new Flutter project.
+Wraps data to .bmp and extracts data from .bmp.
 
-## Getting Started
+# What is Bitmaptize?
 
-This project is a starting point for a Flutter application.
+Bitmaptize first of all is an experiment with the bitmap files. It is an application that allows to wrap any file into a bitmap file and viceversa.
 
-A few resources to get you started if this is your first Flutter project:
+The result of thw wrapping data to .bmp file is like this:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="screenshots/sample.png" width="250">
