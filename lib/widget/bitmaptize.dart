@@ -17,15 +17,12 @@ class _BitmaptizeState extends State<Bitmaptize> {
 
   Future<void> _initInstances() async {
     packageInfo = await PackageInfo.fromPlatform();
-    print("DONE");
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initInstances().then((value) => print("DONEEEEEE"));
-    });
+    _initInstances();
   }
 
   Widget _aboutDialogBuilder(BuildContext context) {
@@ -50,10 +47,10 @@ class _BitmaptizeState extends State<Bitmaptize> {
               tabs: [
                 Tab(
                     icon: Icon(Icons.file_copy),
-                    text: "Convert Data to BMP file"),
+                    text: "Wrap Data inside a BMP file"),
                 Tab(
                   icon: Icon(Icons.image),
-                  text: "Convert BMP to Data file",
+                  text: "Extract data from a BMP file",
                 ),
               ],
             ),
@@ -83,7 +80,7 @@ class _BitmaptizeState extends State<Bitmaptize> {
             clipBehavior: Clip.none,
             children: [
               ConverterCommon.ConvertCommon(
-                title: "Convert Data to BMP",
+                title: "Wrap Data file inside a BMP file",
                 description:
                     "Wraps a data file into a BMP file (maximum size allowed is 100Mb). Choose the file that you want to wrap into a Bitmap file and press on 'Process' button. Once the processing operation is finished, a new file will appear in the same directory of your target file which will have the same name and the '.bmp' extension.",
                 key: const ValueKey("data_to_bmp"),
@@ -91,7 +88,7 @@ class _BitmaptizeState extends State<Bitmaptize> {
                 parentContext: context,
               ),
               ConverterCommon.ConvertCommon(
-                  title: "Convert BMP to Data",
+                  title: "Extract Data file from a BMP file",
                   description:
                       "Extracts from BMP file the original file and saves it. The maximum target file size is 100Mb. Chose the file that you wrapped in a BMP file and press on 'Process' button. A new file will be created in the directory of the target file that will contain the same name as the target file and the extension of the original file.",
                   parentContext: context,
