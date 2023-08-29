@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bitmaptize/exception/file_too_large_exception.dart';
+import 'package:bitmaptize/exception/invalid_file_exception.dart';
 import 'package:bitmaptize/model/pixel.dart';
 import 'package:bitmaptize/service/validation_util.dart';
 
@@ -82,6 +84,17 @@ class DataFileToBitmapConverter {
   }
 
   Future<void> convert(
+      final String targetFileName, final String destinationFilename) async {
+    try {
+      await _convert(targetFileName, destinationFilename);
+    } on FileToLargeException catch (exc) {
+      rethrow;
+    } catch (err) {
+      throw InvalidFileException("Something went wrong: $err");
+    }
+  }
+
+  Future<void> _convert(
       final String targetFileName, final String destinationFilename) async {
     File inFile = File(targetFileName);
     Uint8List data = await inFile.readAsBytes();

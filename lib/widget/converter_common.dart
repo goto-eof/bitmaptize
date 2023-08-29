@@ -1,3 +1,5 @@
+import 'package:bitmaptize/exception/file_too_large_exception.dart';
+import 'package:bitmaptize/exception/invalid_file_exception.dart';
 import 'package:bitmaptize/service/bitmap_to_data_file_converter.dart';
 import 'package:bitmaptize/service/data_file_to_bitmap_converter.dart';
 import 'package:bitmaptize/util/file_util.dart';
@@ -29,11 +31,19 @@ class _ConvertCommonState extends State<ConvertCommon> {
   String? message;
 
   void _chooseFile() async {
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(allowMultiple: false);
+    FilePickerResult? result;
+    if (widget.action == Action.convertToBmp) {
+      result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    }
+    if (widget.action == Action.convertToData) {
+      result = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.custom,
+          allowedExtensions: ["bmp"]);
+    }
     if (result != null) {
       setState(() {
-        _file = result.files[0].path!;
+        _file = result!.files[0].path!;
       });
     }
   }
@@ -43,31 +53,52 @@ class _ConvertCommonState extends State<ConvertCommon> {
       setState(() {
         _processing = true;
       });
-      DataFileToBitmapConverter converter = DataFileToBitmapConverter();
-      await converter.convert(_file!, "$_file.bmp");
+      try {
+        DataFileToBitmapConverter converter = DataFileToBitmapConverter();
+        await converter.convert(_file!, "$_file.bmp");
+        _showSnackbarMessage("Done!");
+      } on FileToLargeException catch (_) {
+        _showSnackbarMessage(
+            "File too large. Please select a file that is less that 100Mb");
+      } on InvalidFileException catch (_) {
+        _showSnackbarMessage("Something went wrong.");
+      } catch (err) {
+        _showSnackbarMessage("Something went wrong: $err");
+      }
+
       setState(() {
         _processing = false;
       });
-      _showDone();
+
       return;
     }
     if (widget.action == Action.convertToData) {
       setState(() {
         _processing = true;
       });
-      BitmapToDataFileConverter converter = BitmapToDataFileConverter();
-      await converter.convert(
-          _file!, FileUtil.removeLastFileNameExtension(_file!));
+      try {
+        BitmapToDataFileConverter converter = BitmapToDataFileConverter();
+        await converter.convert(
+            _file!, FileUtil.removeLastFileNameExtension(_file!));
+        _showSnackbarMessage("Done!");
+      } on FileToLargeException catch (_) {
+        _showSnackbarMessage(
+            "File too large. Please select a file that is less that 100Mb");
+      } on InvalidFileException catch (_) {
+        _showSnackbarMessage("Something went wrong.");
+      } catch (err) {
+        _showSnackbarMessage("Something went wrong: $err");
+      }
+
       setState(() {
         _processing = false;
       });
-      _showDone();
     }
   }
 
-  void _showDone() {
+  void _showSnackbarMessage(final String message) {
     ScaffoldMessenger.of(widget.parentContext)
-        .showSnackBar(const SnackBar(content: Text("Done!")));
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
