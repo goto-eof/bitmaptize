@@ -10,7 +10,7 @@ class BitmapToDataFileConverter {
       final String targetFileName, final String destinationFileName) async {
     try {
       await _convert(targetFileName, destinationFileName);
-    } on FileToLargeException catch (exc) {
+    } on FileToLargeException {
       rethrow;
     } catch (err) {
       throw InvalidFileException("Something went wrong: $err");

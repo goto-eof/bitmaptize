@@ -87,7 +87,7 @@ class DataFileToBitmapConverter {
       final String targetFileName, final String destinationFilename) async {
     try {
       await _convert(targetFileName, destinationFilename);
-    } on FileToLargeException catch (exc) {
+    } on FileToLargeException {
       rethrow;
     } catch (err) {
       throw InvalidFileException("Something went wrong: $err");
