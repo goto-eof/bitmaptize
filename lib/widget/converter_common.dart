@@ -28,7 +28,6 @@ class ConvertCommon extends StatefulWidget {
 class _ConvertCommonState extends State<ConvertCommon> {
   String? _file;
   bool _processing = false;
-  String? message;
 
   void _chooseFile() async {
     FilePickerResult? result;
@@ -50,50 +49,54 @@ class _ConvertCommonState extends State<ConvertCommon> {
 
   Future<void> _process() async {
     if (widget.action == Action.convertToBmp) {
-      setState(() {
-        _processing = true;
-      });
-      try {
-        DataFileToBitmapConverter converter = DataFileToBitmapConverter();
-        await converter.convert(_file!, "$_file.bmp");
-        _showSnackbarMessage("Done!");
-      } on FileToLargeException catch (_) {
-        _showSnackbarMessage(
-            "File too large. Please select a file that is less that 100Mb");
-      } on InvalidFileException catch (_) {
-        _showSnackbarMessage("Something went wrong.");
-      } catch (err) {
-        _showSnackbarMessage("Something went wrong: $err");
-      }
-
-      setState(() {
-        _processing = false;
-      });
-
-      return;
+      return await _manageProcessToBmp();
     }
-    if (widget.action == Action.convertToData) {
-      setState(() {
-        _processing = true;
-      });
-      try {
-        BitmapToDataFileConverter converter = BitmapToDataFileConverter();
-        await converter.convert(
-            _file!, FileUtil.removeLastFileNameExtension(_file!));
-        _showSnackbarMessage("Done!");
-      } on FileToLargeException catch (_) {
-        _showSnackbarMessage(
-            "File too large. Please select a file that is less that 100Mb");
-      } on InvalidFileException catch (_) {
-        _showSnackbarMessage("Something went wrong.");
-      } catch (err) {
-        _showSnackbarMessage("Something went wrong: $err");
-      }
+    await _manageProcessToData();
+  }
 
-      setState(() {
-        _processing = false;
-      });
+  Future<void> _manageProcessToData() async {
+    setState(() {
+      _processing = true;
+    });
+    try {
+      BitmapToDataFileConverter converter = BitmapToDataFileConverter();
+      await converter.convert(
+          _file!, FileUtil.removeLastFileNameExtension(_file!));
+      _showSnackbarMessage("Done!");
+    } on FileToLargeException catch (_) {
+      _showSnackbarMessage(
+          "File too large. Please select a file that is less that 100Mb");
+    } on InvalidFileException catch (_) {
+      _showSnackbarMessage("Something went wrong.");
+    } catch (err) {
+      _showSnackbarMessage("Something went wrong: $err");
     }
+
+    setState(() {
+      _processing = false;
+    });
+  }
+
+  Future<void> _manageProcessToBmp() async {
+    setState(() {
+      _processing = true;
+    });
+    try {
+      DataFileToBitmapConverter converter = DataFileToBitmapConverter();
+      await converter.convert(_file!, "$_file.bmp");
+      _showSnackbarMessage("Done!");
+    } on FileToLargeException catch (_) {
+      _showSnackbarMessage(
+          "File too large. Please select a file that is less that 100Mb");
+    } on InvalidFileException catch (_) {
+      _showSnackbarMessage("Something went wrong.");
+    } catch (err) {
+      _showSnackbarMessage("Something went wrong: $err");
+    }
+
+    setState(() {
+      _processing = false;
+    });
   }
 
   void _showSnackbarMessage(final String message) {
@@ -159,17 +162,19 @@ class _ConvertCommonState extends State<ConvertCommon> {
                         const SizedBox(
                           width: 10,
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          width: 400,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: const Color.fromARGB(73, 115, 113, 113),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: const Color.fromARGB(73, 115, 113, 113),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            _file ?? 'no file selected',
+                            child: Text(
+                              _file ?? 'no file selected',
+                            ),
                           ),
                         ),
                       ],
