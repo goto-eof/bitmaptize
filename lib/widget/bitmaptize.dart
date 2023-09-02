@@ -31,7 +31,7 @@ class _BitmaptizeState extends State<Bitmaptize> {
       applicationSnapName: "bitmaptize",
       applicationIcon: Image.asset("assets/images/icon.png"),
       applicationVersion: packageInfo.version,
-      applicationLegalese: "MIT",
+      applicationLegalese: "GPL-3.0 license",
       applicationDeveloper: "Andrei Dodu",
     );
   }
